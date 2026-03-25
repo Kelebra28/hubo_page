@@ -14,6 +14,20 @@ if (navToggle && siteNav) {
     });
   });
 }
+const header = document.querySelector('.site-header');
+
+if (header) {
+  const toggleHeaderOnScroll = () => {
+    if (window.scrollY > 24) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  };
+
+  toggleHeaderOnScroll();
+  window.addEventListener('scroll', toggleHeaderOnScroll);
+}
 
 const leadForm = document.getElementById('leadForm');
 
@@ -72,3 +86,29 @@ tiltCards.forEach((card) => {
     card.style.transform = '';
   });
 });
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.site-nav a[href^="#"]');
+
+const activateNavOnScroll = () => {
+  const scrollY = window.scrollY + 140;
+
+  sections.forEach((section) => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.offsetHeight;
+    const sectionId = section.getAttribute('id');
+
+    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+      navLinks.forEach((link) => {
+        link.classList.remove('active');
+
+        if (link.getAttribute('href') === `#${sectionId}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+};
+
+window.addEventListener('scroll', activateNavOnScroll);
+window.addEventListener('load', activateNavOnScroll);
